@@ -37,6 +37,15 @@ export const fetchAllEmployees = () => async dispatch => {
         })
     }
 
+    export const fetchSkills = () => async dispatch => {
+        const response = await jsonPlaceholder.get('/skills');  
+
+        dispatch({
+            type: 'FETCH_SKILLS',
+            payload: response.data
+        })
+    }
+
  
 
   

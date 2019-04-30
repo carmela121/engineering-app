@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchAllEmployees, fetchPersonas, fetchFilteredEmployees } from '../actions';
+import { fetchAllEmployees, fetchPersonas, fetchFilteredEmployees, fetchSkills } from '../actions';
 import _ from 'lodash';
 
 class Employees extends React.Component {
@@ -16,17 +16,23 @@ class Employees extends React.Component {
 
     handleChange = (e) => {
         let value = e.target.value
-        if(value === "all") {
-            this.props.fetchAllEmployees();
-        } else {
-            this.setState({projectStatus: value})
-            this.props.fetchFilteredEmployees(value);
-        }
+            if(value === "all") {
+                this.setState({projectStatus: 'all'})
+                this.props.fetchAllEmployees();
+            } else {
+                this.setState({projectStatus: value})
+                this.props.fetchFilteredEmployees(value);
+            }
+    
       
     }
+
    
     componentDidMount() {
+  
         this.props.fetchAllEmployees();
+        this.props.fetchPersonas();
+        this.props.fetchSkills()
         
     }
     
@@ -47,14 +53,20 @@ class Employees extends React.Component {
                             <option value="HELD">Held</option>
                         </select>
                     </div>
-                    <div className="column">
-                        <select className="ui dropdown">
+                
+                    
+                        <div className="column">
+                            <select className="ui dropdown">
                             <option value="">Skills</option>
-                            <option value="2">blah</option>
-                            <option value="1">blahblah</option>
-                            <option value="0">Held</option>
-                        </select>
-                    </div>
+                            <option value="all">All</option>
+                            {this.props.skills.map(skill => 
+                                <option value={skill.name}>{skill.name}</option>
+                                )
+                            }
+                            </select>
+                        </div>
+                
+                   
         
                 </div>
                 
@@ -98,12 +110,11 @@ class Employees extends React.Component {
 const mapStateToProps = (state) => {
     return { 
         employees: state.employees.employeeList,
-        personas: state.personas.personaList
-  
-        
+        personas: state.personas.personaList,
+        skills: state.skills.skillList  
        
      };
 
 }
 
-export default connect(mapStateToProps, {fetchAllEmployees, fetchFilteredEmployees, fetchPersonas})(Employees);
+export default connect(mapStateToProps, {fetchAllEmployees, fetchFilteredEmployees, fetchPersonas, fetchSkills})(Employees);

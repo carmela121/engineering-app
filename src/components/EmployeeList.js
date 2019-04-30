@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchAllEmployees, fetchPersonas, fetchFilteredEmployees, fetchSkills } from '../actions';
-import _ from 'lodash';
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 class Employees extends React.Component {
     constructor(props){
@@ -27,7 +28,6 @@ class Employees extends React.Component {
       
     }
 
-   
     componentDidMount() {
   
         this.props.fetchAllEmployees();
@@ -38,11 +38,35 @@ class Employees extends React.Component {
     
    
     render() {
-      
+        const data  = this.props.employees;
+        const columns = [{
+            Header: 'Name',
+            id: 'name',
+            accessor: d => d.firstname
+        }, {
+            Header: 'Surname',
+            id: 'surname',
+            accessor: d => d.surname
+        }, {
+            Header: 'Email',
+            id: 'email',
+            accessor: d => d.email
+        }, {
+            Header: 'Level',
+            id: 'level',
+            accessor: d => d.consultantLevelEnum
+        }, {
+            Header: 'Project Status',
+            id: 'projectStatus',
+            accessor: d => d.projectStatus
+        
+        }]
+
+          console.log(data)
         return(
             <div className="ui container">
                 <h2 className="ui header">Select from the following menu</h2>
-                <div className="ui four column doubling stackable grid container">
+                {/* <div className="ui four column doubling stackable grid container">
             
                     <div className="column">
                         <select value={this.state.projectStatus} onChange={this.handleChange} className="ui dropdown">
@@ -57,20 +81,20 @@ class Employees extends React.Component {
                     
                         <div className="column">
                             <select className="ui dropdown">
-                            <option value="">Skills</option>
-                            <option value="all">All</option>
-                            {this.props.skills.map(skill => 
-                                <option value={skill.name}>{skill.name}</option>
-                                )
-                            }
+                                <option value="">Skills</option>
+                                <option value="all">All</option>
+                                {this.props.skills.map(skill => 
+                                    <option key={skill.id} value={skill.name}>{skill.name}</option>
+                                    )
+                                }
                             </select>
                         </div>
                 
                    
         
-                </div>
+                </div> */}
                 
-                    <div className="grid"> 
+                    {/* <div className="grid"> 
                         <div>
                         {
                             
@@ -87,6 +111,7 @@ class Employees extends React.Component {
                                             Location: {employee.location}<br/>
                                             Level: {employee.consultantLevelEnum}<br/>
                                             Start Date: {employee.startDate}<br/>
+                                          
                                             Project Status: {employee.projectStatus}</p>
                                         </div>
                                     </div>
@@ -99,7 +124,13 @@ class Employees extends React.Component {
                         }
                     
                     </div>
-                </div>
+                </div> */}
+
+                <ReactTable
+                    data={data}
+                    columns={columns}
+                    defaultPageSize={15}
+            />
             </div>
             
             

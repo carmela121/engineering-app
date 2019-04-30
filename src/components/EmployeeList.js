@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchEmployees, fetchPersonas } from '../actions';
+import { fetchAllEmployees, fetchPersonas, fetchFilteredEmployees } from '../actions';
 import _ from 'lodash';
 
 class Employees extends React.Component {
@@ -10,37 +10,25 @@ class Employees extends React.Component {
         this.state = {
             projectStatus: '',
             skillName: ''
-          
-        
         }
 
     }
+
+    handleChange = (e) => {
+        if(e.target.value === "all") {
+            this.props.fetchAllEmployees();
+        } else {
+            this.props.fetchFilteredEmployees(e.target.value);
+        }
+      
+    }
    
     componentDidMount() {
-        this.props.fetchEmployees();
+        this.props.fetchAllEmployees();
         this.props.fetchPersonas();
         
         
     }
-
-  
-    handleChange = (value) => {
-       
-        let filteredData;
-        if(this.state.projectStatus === "all"){
-           
-          filteredData = this.props.employees;
-        } else {
-          filteredData = this.props.employees.filter(item => console.log(this.state.projectStatus));
-        }
-    }
-
-    handleToggle = (e) => {
-        var value = e.target.value;
-        this.setState({projectStatus: value})
-        this.handleChange(value);
-    }
-
     
     renderList() {
   
@@ -91,14 +79,14 @@ class Employees extends React.Component {
         ) 
     }
     render() {
-      console.log(this.state.projectStatus)
+      
         return(
             <div className="ui container">
                 <h2 className="ui header">Select from the following menu</h2>
                 <div className="ui four column doubling stackable grid container">
             
                     <div className="column">
-                        <select value={this.state.projectStatus} onChange={this.handleToggle} className="ui dropdown">
+                        <select value={this.state.projectStatus} onChange={this.handleChange} className="ui dropdown">
                             <option value="">Project Status</option>
                             <option value="all">All</option>
                             <option value="BENCH">Bench</option>
@@ -107,13 +95,12 @@ class Employees extends React.Component {
                         </select>
                     </div>
                     <div className="column">
-                        <select  className="ui dropdown">
+                        <select className="ui dropdown">
                             <option value="">Skills</option>
-                            <option value="2">Java</option>
-                            <option value="1">Python</option>
-                            <option value="0">Javast</option>
+                            <option value="2">blah</option>
+                            <option value="1">blahblah</option>
+                            <option value="0">Held</option>
                         </select>
-                        
                     </div>
         
                 </div>
@@ -136,4 +123,4 @@ const mapStateToProps = (state) => {
 
 }
 
-export default connect(mapStateToProps, {fetchEmployees, fetchPersonas})(Employees);
+export default connect(mapStateToProps, {fetchAllEmployees, fetchFilteredEmployees, fetchPersonas})(Employees);

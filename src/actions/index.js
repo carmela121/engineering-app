@@ -2,16 +2,31 @@
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
 
-export const fetchEmployees = () => async dispatch => {
+export const fetchFilteredEmployees = (projectStatus, skillName) => async dispatch => {
 
-        const response = await jsonPlaceholder.get('/employees');
+
+        const response = await jsonPlaceholder.get(`/employees?projectStatus=${projectStatus}`);
         
         dispatch ({
-            type: 'FETCH_EMPLOYEES',
+            type: 'FETCH_FILTERED_EMPLOYEES',
             payload: response.data
         })
    
      }
+
+export const fetchAllEmployees = () => async dispatch => {
+     
+    
+            const response = await jsonPlaceholder.get('/employees');
+            
+            dispatch ({
+                type: 'FETCH_EMPLOYEES',
+                payload: response.data
+            })
+       
+         }
+
+ 
 
     export const fetchPersonas = () => async dispatch => {
         const response = await jsonPlaceholder.get('/personas');  

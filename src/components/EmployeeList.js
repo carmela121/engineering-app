@@ -15,69 +15,22 @@ class Employees extends React.Component {
     }
 
     handleChange = (e) => {
-        if(e.target.value === "all") {
+        let value = e.target.value
+        if(value === "all") {
             this.props.fetchAllEmployees();
         } else {
-            this.props.fetchFilteredEmployees(e.target.value);
+            this.setState({projectStatus: value})
+            this.props.fetchFilteredEmployees(value);
         }
       
     }
    
     componentDidMount() {
         this.props.fetchAllEmployees();
-        this.props.fetchPersonas();
-        
         
     }
     
-    renderList() {
-  
-        
-        return (
-            <div>
-                {
-                    
-                    this.props.employees.map((employee, index) => (
-                        <div className="ui container" key={index}>
-                            <div className="ui list">
-                            <div className="item">
-                            <i className="ui avatar image icon user"/>
-                            <div className="content">
-                            <p className="header">{employee.firstname} {employee.surname}</p>
-                                <div className="description">
-                                
-                                  <p>Email: {employee.email}<br/>
-                                    Location: {employee.location}<br/>
-                                    Level: {employee.consultantLevelEnum}<br/>
-                                    Start Date: {employee.startDate}<br/>
-                                    Project Status: {employee.projectStatus}</p>
-                                </div>
-                            </div>
-                            </div>
-
-                           
-                            </div>
-                        </div>
-                    ))
-                }
-                {
-                    this.props.personas.map((persona, index) => (
-                        <div className="ui container" key={index} className="item">
-                           
-                              
-                                <div className="description">
-                                    <p>{persona.name}</p>
-                                    <p>{persona.description}</p>
-                             
-                        
-                            </div>
-                        </div>
-                    ))
-                }
-                
-            </div>
-        ) 
-    }
+   
     render() {
       
         return(
@@ -104,7 +57,37 @@ class Employees extends React.Component {
                     </div>
         
                 </div>
-                <div className="grid">{this.renderList()}</div>
+                
+                    <div className="grid"> 
+                        <div>
+                        {
+                            
+                            this.props.employees.map((employee, index) => (
+                                <div className="ui container" key={index}>
+                                    <div className="ui list">
+                                    <div className="item">
+                                    <i className="ui avatar image icon user"/>
+                                    <div className="content">
+                                    <p className="header">{employee.firstname} {employee.surname}</p>
+                                        <div className="description">
+                                        
+                                        <p>Email: {employee.email}<br/>
+                                            Location: {employee.location}<br/>
+                                            Level: {employee.consultantLevelEnum}<br/>
+                                            Start Date: {employee.startDate}<br/>
+                                            Project Status: {employee.projectStatus}</p>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    
+                    </div>
+                </div>
             </div>
             
             

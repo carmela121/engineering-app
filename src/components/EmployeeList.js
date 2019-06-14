@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchAllEmployees, fetchPersonas, fetchFilteredEmployees, fetchSkills } from '../actions';
+import { fetchAllEmployees, fetchPersonas, fetchFilteredEmployees, fetchSkills, createEmployee } from '../actions';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import SimpleForm from "./AddEmployee";
 
 class Employees extends React.Component {
     constructor(props){
@@ -27,7 +28,7 @@ class Employees extends React.Component {
     
       
     }
-
+  
     componentDidMount() {
   
         this.props.fetchAllEmployees();
@@ -38,6 +39,7 @@ class Employees extends React.Component {
     
    
     render() {
+        console.log(this.props)
         const data  = this.props.employees;
         const columns = [{
             Header: 'Name',
@@ -131,6 +133,7 @@ class Employees extends React.Component {
                     columns={columns}
                     defaultPageSize={15}
             />
+            <SimpleForm/>
             </div>
             
             
@@ -148,4 +151,4 @@ const mapStateToProps = (state) => {
 
 }
 
-export default connect(mapStateToProps, {fetchAllEmployees, fetchFilteredEmployees, fetchPersonas, fetchSkills})(Employees);
+export default connect(mapStateToProps, {fetchAllEmployees, fetchFilteredEmployees, fetchPersonas, fetchSkills, createEmployee})(Employees);
